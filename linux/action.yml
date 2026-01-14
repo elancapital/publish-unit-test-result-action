@@ -221,10 +221,9 @@ runs:
           if ! "$PYTHON_BIN" -m pip --cache-dir .enricomi-publish-action-pip install virtualenv
           then
             echo "Looks like pip may be missing"
-            curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | "$PYTHON_BIN"
-            if ! "$PYTHON_BIN" -m pip --cache-dir .enricomi-publish-action-pip install virtualenv
+            if ! curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | "$PYTHON_BIN" - --cache-dir .enricomi-publish-action-pip --break-system-packages virtualenv
             then
-              echo "::error::Installing virtualenv package failed"
+              echo "::error::Installing pip with virtualenv failed"
               exit 1
             fi
           fi
